@@ -7,8 +7,8 @@ var deviceSchema = new Schema({
     _id: String,
     user_id: String,
     topic: String,
-    name: String,
-    key: String
+    username: String,
+    password: String
 });
 
 // the schema is useless so far

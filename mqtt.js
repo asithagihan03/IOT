@@ -24,7 +24,7 @@ server.authenticate = function(client, username, password, callback){
     var authorized = false;
     
  	 // Use connect method to connect to the Server
-	Device.findOne({topic: username,key:password}, function(err, device) {
+	Device.findOne({username: username,password:password}, function(err, device) {
 	  if (err) throw err;
 
 	  // object of all the users
@@ -32,9 +32,9 @@ server.authenticate = function(client, username, password, callback){
 	  {
 	  	console.log('authenticate connection: ', client.id );
 
-	  	if (device.topic == username && device.key == password) 
+	  	if (device.username == username && device.password == password) 
 		{
-			client.token = device.topic;
+			client.topic = device.topic;
 			authorized = true;			
 		}
 	  }
@@ -45,12 +45,12 @@ server.authenticate = function(client, username, password, callback){
 
 server.authorizePublish = function(client, topic, payload, callback) {
   console.log('authorizePublish connection: ', topic );
-  callback(null, client.token === topic);
+  callback(null, client.topic === topic);
 }
 
 server.authorizeSubscribe =  function(client, topic, callback) {
   console.log('authorizeSubscribe connection: ', topic );
-  callback(null, client.token === topic);
+  callback(null, client.topic === topic);
 }
 
 server.on('ready', setup);
@@ -69,9 +69,9 @@ server.on('published', function(packet,client) {
   	{
   	  const message = packet.payload.toString();
 
-	  console.log('Topic: ', client.token );
+	  console.log('Topic: ', client.topic );
 	  console.log('New message: ',message );
-	  Device.findOne({topic: client.token}, function(err, device) {
+	  Device.findOne({topic: client.topic}, function(err, device) {
 	    if (err) throw err;
 
 	    // object of all the users
@@ -80,7 +80,7 @@ server.on('published', function(packet,client) {
 	      
 	      var newData = Data({
 	        device_id: device._id,
-	        topic: client.token,
+	        topic: client.topic,
 	        param: '',
 	        value: message
 	      })

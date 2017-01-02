@@ -1,0 +1,16 @@
+{
+  "name": "iot",
+  "version": "0.0.1",
+  "description": "iot mosca broker",
+  "main": "mqtt.js",
+  "dependencies": {
+    "mongoose": "^4.7.5",
+    "mosca": "^2.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Asitha",
+  "license": "MIT"
+}

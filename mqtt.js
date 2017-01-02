@@ -8,7 +8,7 @@ var Device = require('./Device');
 var Data = require('./Data');
 
 var settings = {
-	host : 'localhost',
+	host : '103.253.147.227',
   port: 9999,
 };
 
